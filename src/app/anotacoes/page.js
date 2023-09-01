@@ -1,52 +1,56 @@
 'use client'
 
-
 import NavBar from "@/components/NavBar";
-import { useState } from "react";
-import { AiOutlineCheck } from 'react-icons/ai'
-import { BsCheck } from 'react-icons/bs'
+import TarefaView from "@/components/TarefaView";
+import { useCallback, useEffect, useState } from "react";
 
-function CheckBox({ text }) {
+const url = 'http://localhost:8080/makeanote/api/usuario/tarefa'
 
-    const [checked, setChecked] = useState(false)
+const TarefasList = ({ handleSelectTarefa, currentTarefa }) => {
+    const [data, setData] = useState([])
 
-    const toggleCheck = () => {
-        setChecked(!checked)
+    useEffect(() => {
+        fetch(url)
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data)
+                console.log(data);
+            })
+    }, [])
+
+    return (
+        <>
+            <ul>
+                {data.map(tarefa => {
+                    return (
+                        <li key={tarefa.id} className={`pl-4 cursor-pointer ${currentTarefa != tarefa && 'hover:text-neutral-600'}  ${currentTarefa == tarefa ? 'text-black' : 'text-gray-500'}`} onClick={(e) => handleSelectTarefa(e, tarefa)}>
+                            →	{tarefa.titulo}
+                        </li>
+                    )
+                })}
+            </ul >
+        </>
+    );
+};
+
+export default function Anotacoes() {
+
+    const [currentTarefa, setTarefa] = useState(null)
+
+    const handleSelectTarefa = (e, tarefa) => {
+        e.preventDefault()
+        setTarefa(tarefa)
+        console.log(tarefa);
     }
 
     return (
         <>
-            <div className="flex items-center">
-                <div onClick={toggleCheck} className={`flex justify-center items-center w-7 h-7 mr-4 transition-colors hover:cursor-pointer ${checked && 'bg-blue-500'} border-neutral-800 border-2 rounded`}>
-                    <BsCheck color="white"></BsCheck>
-                </div>
-
-                <span className="text-neutral-800">{text}</span>
-            </div >
-        </>
-    )
-}
-
-export default function Anotacoes() {
-    return (
-        <>
             <main className="bg-neutral-50 flex overflow-hidden">
-                <NavBar active={"anotacoes"} />
-                <div className="w-full px-8 mt-8">
-                    <h2 className="font-medium text-gray-400">Anotações</h2>
-                    <h1 className="font-semibold text-black text-4xl py-4">Tarefas semanais</h1>
-
-                    <section className="">
-                        <h2 className="font-regular text-neutral-800 text-xl">Meus Lembretes</h2>
-
-                        <div className="flex flex-col mt-8 space-y-4">
-                            <CheckBox text={"Pagar conta de Luz"}></CheckBox>
-                            <CheckBox text={"Pagar conta de Água'"}></CheckBox>
-                            <CheckBox text={"Pagar conta de Internet"}></CheckBox>
-                            <textarea id="message" rows="15" class="text-gray-900 focus:border-transparent focus:outline-none bg-transparent" placeholder="Faça as anotações aqui"></textarea>
-                        </div>
-                    </section>
-                </div>
+                <NavBar active={"anotacoes"}>
+                    <TarefasList handleSelectTarefa={handleSelectTarefa} currentTarefa={currentTarefa}></TarefasList>
+                </NavBar>
+                {currentTarefa ? <TarefaView tarefa={currentTarefa}></TarefaView> : <h1 className="text-black font-medium text-xl p-4">Nenhuma tarefa selecionada
+                    <br></br>    Selecione na barra de navegação</h1>}
             </main>
         </>
     )
