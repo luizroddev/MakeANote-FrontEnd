@@ -38,7 +38,7 @@ export default function NavBar({ children, active }) {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/">
+                        <Link href="/cadastro">
                             Sair
                         </Link>
                     </li>
