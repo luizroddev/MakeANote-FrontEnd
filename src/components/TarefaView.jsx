@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AiOutlineCheck } from 'react-icons/ai'
 import { BsCheck } from 'react-icons/bs'
 
-const url = 'http://localhost:8080/makeanote/api/usuario/tarefa'
+const url = 'https://makeanote-production.up.railway.app/makeanote/api/usuario/tarefa'
 
 
 export function CheckBox({ text }) {
@@ -89,7 +89,10 @@ function TarefaView({ tarefa, setTarefa }) {
                         {/* <CheckBox text={"Pagar conta de Internet"}></CheckBox> */}
 
                         <h2 className="font-semibold text-xl text-neutral-700 mb-1">Descrição da tarefa:</h2>
-                        <textarea id="message" rows="15" className="text-gray-900 focus:border-transparent focus:outline-none bg-transparent" placeholder="Faça as anotações aqui" defaultValue={tarefa.descricao}></textarea>
+                        <textarea id="message" rows="15" className="text-gray-900 focus:border-transparent focus:outline-none bg-transparent" placeholder="Faça as anotações aqui"
+                            onChange={(e) => handleFieldChange('descricao', e.target.value)}
+                            value={tarefa.descricao}
+                            defaultValue={tarefa.descricao}></textarea>
                     </div>
                 </section>
                 <div className="space-x-8">

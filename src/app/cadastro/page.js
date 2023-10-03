@@ -23,7 +23,7 @@ function CadastroForm() {
 
         // Simule uma chamada à API com Axios (substitua pela sua URL real)
         try {
-            const response = await axios.post('http://localhost:8080/makeanote/api/usuario/conta', formData)
+            const response = await axios.post('https://makeanote-production.up.railway.app/makeanote/api/usuario/conta', formData)
             router.push('/', { scroll: false })
             console.log(response.data);
         } catch (error) {

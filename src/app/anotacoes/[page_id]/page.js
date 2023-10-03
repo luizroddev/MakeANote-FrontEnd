@@ -6,7 +6,7 @@ import TarefaList from "@/components/TarefasList";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-const url = 'http://localhost:8080/makeanote/api/usuario/tarefa'
+const url = 'https://makeanote-production.up.railway.app/makeanote/api/usuario/tarefa'
 
 const TarefasList = ({ handleSelectTarefa, currentTarefa }) => {
     const [data, setData] = useState([])
@@ -66,7 +66,7 @@ export default function Anotacoes() {
     console.log(params);
 
     useEffect(() => {
-        fetch('http://localhost:8080/makeanote/api/usuario/tarefa/' + params.page_id)
+        fetch('https://makeanote-production.up.railway.app/makeanote/api/usuario/tarefa/' + params.page_id)
             .then((res) => res.json())
             .then((data) => {
                 setTarefa(data)
